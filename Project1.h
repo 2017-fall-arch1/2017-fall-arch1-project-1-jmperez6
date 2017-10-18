@@ -23,10 +23,10 @@ BST *BSTPut(BST *lp, char *s);
 BST *PutFromFile(BST *lp, char *s);
 
 /*Insert names to a text file from the binary search tree*/
-void *PutToFile(BST *lp, char *s);
-  
-/* delete all elements off of the binary search tree */
-void BSTMakeEmpty(BST *lp);
+void PutToFile(BST *lp, char *s);
+
+/*Helper method for PutToFIle*/
+void PutToFileHelper(BST *lp, FILE *file);
 
 /* print tree membership. Prints default message if message is NULL */
 void PrintInorder(BST *lp);

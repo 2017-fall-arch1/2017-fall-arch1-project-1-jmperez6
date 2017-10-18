@@ -57,12 +57,12 @@ int main(void){
       PrintInorder(bst);
       continue;
     case 4:
-      printf("Please enter the filename");
+      printf("Please enter the filename\n");
       scanf("%s", filename);
       bst = PutFromFile(bst, filename);
       continue;
     case 5:
-      printf("Please enter the filename");
+      printf("Please enter the filename\n");
       scanf("%s", filename);
       PutToFile(bst, filename);
       continue;

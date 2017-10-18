@@ -18,37 +18,21 @@ BST *BSTAlloc(){
   return lp;
 }
 
-/* recycle a binary search tree, discarding all items it contains */
-void BSTFree(BST *lp){
-  BSTMakeEmpty(lp);
-  free(lp);
-}
-
-/* Delete all elements off of the list */
-void BSTMakeEmpty(BST *lp){
-
-}
 
 /* append a copy of str to the binary search tree */
 BST *BSTPut(BST *lp, char *s){
-  printf("Adding %s to lp\n", s);
-  if(lp != NULL){
-    printf("lp's root str value is: %s\n", lp->str);
-  }
   if((lp == NULL)||(lp->str == NULL)){
     char *name = malloc(255);
     strcpy(name, s);
     lp = (BST*)malloc(255);
     lp->str = name;
-    //printf("lp's string value is now: %s", lp->str);
+    
     return lp;
   }
   else if(strcmp(s, lp->str) < 0){
-    printf("adding to left tree.");
     lp->left = BSTPut(lp->left, s);
   }
   else if(strcmp(s, lp->str) > 0){
-    printf("adding to right tree.");
     lp->right = BSTPut(lp->right, s);
   }
   return lp;
@@ -80,7 +64,6 @@ BST *Remove(BST *lp, char *name){
     return lp;
   }
   else if(strcmp(lp->str, name) == 0){//found the name in the tree
-    printf("Found the name: %s\n", name);
     if(lp->right != NULL){//has right child, so search for 'smallest' child in right subtree.
       char *minNode = smallestNode(lp->right);
       lp->str = minNode;
@@ -97,11 +80,9 @@ BST *Remove(BST *lp, char *name){
       
   }
   else if(strcmp(lp->str, name) > 0){//name comes before current string (left subtree)
-    printf("Going left");
     lp->left = Remove(lp->left, name);
   }
   else if(strcmp(lp->str, name) < 0){ //name comes after current string (right subtree)
-    printf("Going right");
     lp->right = Remove(lp->right, name);
   }
   return lp;
@@ -149,6 +130,20 @@ BST *PutFromFile(BST *lp, char *s){
       
 }
 
-void *PutToFile(BST *lp, char *s){
-
+void PutToFile(BST *lp, char *s){
+  FILE *file;
+  file = fopen(s, "w");
+  if(file != NULL){
+    PutToFileHelper(lp, file);
+    fclose(file);
+  }
+  
+}
+void PutToFileHelper(BST *lp, FILE *file){
+  if(lp==NULL || lp->str==NULL){
+    return;
+  }
+  PutToFileHelper(lp->left, file);
+  fprintf(file, "%s\n", lp->str);
+  PutToFileHelper(lp->right, file);
 }
